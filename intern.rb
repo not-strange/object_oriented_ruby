@@ -1,3 +1,12 @@
+
+module Emailing
+  def send_report
+    puts "Sending email..."
+    # use email sending library...
+    puts "Email sent!"
+  end
+end
+
 class Employee
   attr_reader :first_name, :last_name
   attr_writer :active
@@ -19,15 +28,11 @@ class Employee
 end
 
 class Manager < Employee
+  include Emailing
+
   def initialize(input_options)
     super(input_options)
     @employees = input_options[:employees]
-  end
-
-  def send_report
-    puts "Sending email..."
-    # use email sending library...
-    puts "Email sent!"
   end
 
   def give_all_raises
@@ -44,16 +49,13 @@ class Manager < Employee
 end
 
 class Intern < Employee
-  
+  include Emailing
 end
 
 employee1 = Employee.new({first_name: "Majora", last_name: "Carter", salary: 80000, active: true})
 employee2 = Employee.new(first_name: "Danilo", last_name: "Campos", salary: 70000, active: true)
-p employee1
-p employee2
 
-manager = Manager.new(first_name: "Saron", last_name: "Yitbarek", salary: 100000, active: true, employees: [employee1, employee2])
-manager.fire_all_employees
+manager = Manager.new({first_name: "Saron", last_name: "Yitbarek", salary: 100000, active: true, employees: [employee1, employee2]})
 
-p employee1
-p employee2
+intern = Intern.new({first_name: "Master", last_name: "Yoda", salary: 10, active: true, employees: [employee1, employee2]})
+intern.send_report
